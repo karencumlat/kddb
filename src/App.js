@@ -1,37 +1,57 @@
 import React from 'react';
-import renderDefault from './helpers/renderDefault';
-import renderSearch from './helpers/renderSearch';
+
+import { IoMdArrowDropleft, IoMdArrowDropright } from 'react-icons/io';
+
+import Sections from './components/Sections';
+import Pagination from './components/Pagination';
 
 import { latestDate, currDate } from './helpers/date';
-
-import { URL_API, KD_API, API_KEY } from './helpers/api';
+import { KD_API, API_KEY, woGenre } from './helpers/api';
+import { navItems } from './helpers/navItems';
 
 import './App.css';
 
 function App() {
   const [page, setPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(1);
 
   const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
 
+  const DISCOVER_API = `${KD_API}&${API_KEY}&page=${page}&${woGenre}`;
   const SEARCH_API = `https://api.themoviedb.org/3/search/tv?${API_KEY}&query="`;
-  const LATEST_API = `${KD_API}first_air_date.gte=${latestDate}&first_air_date.lte=${currDate}&sort_by=first_air_date.desc&${API_KEY}`;
-  const UPCOMING_API = `${KD_API}first_air_date.gte=${currDate}&sort_by=first_air_date.asc&${API_KEY}`;
-  const ONAIR_API = `${URL_API}tv/on_the_air?api_key=299cd45add63bfb2f4b534e2c123c7bb`;
+  const LATEST_API = `${KD_API}&${woGenre}&first_air_date.gte=${latestDate}&first_air_date.lte=${currDate}&sort_by=first_air_date.desc&${API_KEY}&page=${page}`;
+  const UPCOMING_API = `${KD_API}&${woGenre}&first_air_date.gte=${currDate}&sort_by=first_air_date.asc&${API_KEY}`;
+  const WATCHED_API = `https://api.themoviedb.org/4/list/7069256?page=${page}&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
+  const WATCHING_API = `https://api.themoviedb.org/4/list/7069257?page=1&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
+  const BEST_API = `https://api.themoviedb.org/4/list/7069430?page=1&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
 
-  const [kDramas, setKDramas] = React.useState();
+  const [renderSection, setRenderSection] = React.useState('');
+
   const [searchTerm, setSearchTerm] = React.useState('');
-  const [upcoming, setUpcoming] = React.useState();
   const [searchResult, setSearchResult] = React.useState();
-  const [onAir, setOnAir] = React.useState();
+
+  const [discover, setDiscover] = React.useState();
+  const [latest, setLatest] = React.useState();
+  const [upcoming, setUpcoming] = React.useState();
+  const [watched, setWatched] = React.useState();
+  const [watching, setWatching] = React.useState();
+
+  const [best, setBest] = React.useState();
 
   React.useEffect(() => {
     if (searchTerm) loadSearch(SEARCH_API + searchTerm);
-    else {
-      loadKDrama(LATEST_API);
-      loadUpcoming(UPCOMING_API);
-      loadOnAir(ONAIR_API);
-    }
-  }, [searchTerm]);
+    renderSection === 'latest'
+      ? loadResults(LATEST_API)
+      : renderSection === 'upcoming'
+      ? loadResults(UPCOMING_API)
+      : renderSection === 'watched'
+      ? loadResults(WATCHED_API)
+      : renderSection === 'watching'
+      ? loadResults(WATCHING_API)
+      : renderSection === 'discover'
+      ? loadResults(DISCOVER_API)
+      : loadResults(BEST_API);
+  }, [searchTerm, page, renderSection]);
 
   async function loadSearch(url) {
     const res = await fetch(url);
@@ -43,37 +63,68 @@ function App() {
     setSearchResult(searchResults);
   }
 
-  async function loadKDrama(url) {
-    const res = await fetch(url);
-    const data = await res.json();
-    setKDramas(data.results);
-  }
-
-  async function loadUpcoming(url) {
+  async function loadResults(url) {
     const res = await fetch(url);
     const data = await res.json();
 
-    setUpcoming(data.results);
-  }
+    setTotalPages(data.total_pages);
 
-  async function loadOnAir(url) {
-    const res = await fetch(url);
-    const data = await res.json();
-    const onAirResults = data.results.filter(
-      (result) => result.original_language === 'ko'
-    );
-
-    setOnAir(onAirResults);
+    renderSection === 'latest'
+      ? setLatest(data.results)
+      : renderSection === 'upcoming'
+      ? setUpcoming(data.results)
+      : renderSection === 'watched'
+      ? setWatched(data.results)
+      : renderSection === 'watching'
+      ? setWatching(data.results)
+      : renderSection === 'discover'
+      ? setDiscover(data.results)
+      : setBest(data.results);
   }
 
   function searchDrama(e) {
     setSearchTerm(e.target.value);
   }
 
+  function renderPagination() {
+    return renderSection === 'watched' ||
+      renderSection === 'latest' ||
+      renderSection === 'discover' ? (
+      <section className="section-pagination">
+        <Pagination
+          page={page}
+          totalPages={totalPages}
+          onClickPrev={() => (page === 1 ? setPage(1) : setPage(page - 1))}
+          onClickNext={() =>
+            page === totalPages ? setPage(page) : setPage(page + 1)
+          }
+        />
+      </section>
+    ) : (
+      ''
+    );
+  }
+
   return (
     <div className="App">
       <header>
-        <h1 onClick={() => window.location.reload()}>K-Drama List</h1>
+        <h1 onClick={() => window.location.reload()}>KDDb</h1>
+        <nav>
+          {navItems.map((item) => {
+            return (
+              <button
+                onClick={() => {
+                  setRenderSection(item.name);
+                  setPage(1);
+                }}
+                key={item.name}
+                className={item.name === renderSection ? 'active' : ''}
+              >
+                {item.title}
+              </button>
+            );
+          })}
+        </nav>
         <form id="form">
           <input
             type="text"
@@ -84,18 +135,37 @@ function App() {
           />
         </form>
       </header>
-      {/* <nav>
-        <button>Now Airing</button>
-        <button onClick={() => (page === 1 ? setPage(1) : setPage(page - 1))}>
-          Previous
-        </button>
-        <button onClick={() => setPage(page + 1)}>Next</button>
-      </nav> */}
+
       <main id="main">
-        {searchTerm
-          ? renderSearch(searchResult, IMG_PATH)
-          : renderDefault(upcoming, IMG_PATH, kDramas, onAir)}
+        {searchTerm ? (
+          <Sections
+            drama={searchResult}
+            imagePath={IMG_PATH}
+            title="Search Result"
+          />
+        ) : renderSection === 'upcoming' ? (
+          <Sections drama={upcoming} imagePath={IMG_PATH} title="Coming Soon" />
+        ) : renderSection === 'watched' ? (
+          <Sections drama={watched} imagePath={IMG_PATH} title="Watched" />
+        ) : renderSection === 'watching' ? (
+          <Sections
+            drama={watching}
+            imagePath={IMG_PATH}
+            title="Currently Watching"
+          />
+        ) : renderSection === 'latest' ? (
+          <Sections drama={latest} imagePath={IMG_PATH} title="New Releases" />
+        ) : renderSection === 'discover' ? (
+          <Sections drama={discover} imagePath={IMG_PATH} title="Discover" />
+        ) : (
+          <Sections
+            drama={best}
+            imagePath={IMG_PATH}
+            title="KDDb's Best of 2020"
+          />
+        )}
       </main>
+      {renderPagination()}
     </div>
   );
 }
