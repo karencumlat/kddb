@@ -1,7 +1,7 @@
 export const navItems = [
   {
     name: 'best',
-    title: "KDDb's Best of 2020",
+    title: 'Best of 2020',
   },
   {
     name: 'discover',

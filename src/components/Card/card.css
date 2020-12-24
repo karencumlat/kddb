@@ -15,14 +15,21 @@
 .movie-info {
   color: #1d2228;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.25rem 1rem;
+  flex-direction: column;
+  padding: 1rem;
   letter-spacing: 0.5px;
 }
 
 .movie-info h3 {
-  margin-top: 0;
+  margin: 0;
+}
+
+.movie-info small,
+.movie h3 {
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .movie-info span {
@@ -51,7 +58,7 @@
 
 .overview {
   background-color: #fff;
-  padding: 2rem;
+  padding: 0.75rem 2rem;
   position: absolute;
   left: 0;
   bottom: 0;
@@ -61,6 +68,11 @@
   overflow-y: auto;
   transition: transform 0.3s ease-in;
   color: #1d2228;
+  font-size: 1rem;
+}
+
+.overview h3 {
+  margin: 1rem 0 0;
 }
 
 .movie:hover .overview {
@@ -69,6 +81,6 @@
 
 @media (max-width: 800px) {
   .movie {
-    width: 150px;
+    width: 40%;
   }
 }
