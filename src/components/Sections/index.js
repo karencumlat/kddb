@@ -1,4 +1,5 @@
 import Card from '../Card';
+import { genres } from '../../helpers/genres';
 import './sections.css';
 
 function Sections(props) {
@@ -12,15 +13,30 @@ function Sections(props) {
           : drama.length === 0
           ? 'search again...'
           : drama.map((drama) => {
-              const { name, poster_path, vote_average, overview } = drama;
+              const {
+                name,
+                poster_path,
+                vote_average,
+                overview,
+                genre_ids,
+              } = drama;
+              const genre = genres.map((g) =>
+                genre_ids.includes(g.id) === true ? g.name : ''
+              );
+              const filterGenre = genre.filter((g) => g !== '');
+
               return (
                 <Card
                   key={name}
                   name={name}
-                  IMG_PATH={imagePath}
+                  imagePath={imagePath}
                   poster_path={poster_path}
                   vote_average={vote_average}
                   overview={overview}
+                  genre={filterGenre
+                    .toString()
+                    .replace(/,/g, ' • ')
+                    .replace(/Action & Adventure/g, 'Action')}
                 />
               );
             })}
