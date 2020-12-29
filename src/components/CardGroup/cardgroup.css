@@ -1,0 +1,24 @@
+.card-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container h2 {
+  margin: 1em 0;
+}
+
+.card-group--content {
+  width: 20%;
+}
+
+@media (max-width: 1024px) {
+  .card-group--content {
+    width: 33%;
+  }
+}
+
+@media (max-width: 800px) {
+  .card-group--content {
+    width: 50%;
+  }
+}

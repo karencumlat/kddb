@@ -1,9 +1,12 @@
 import './card.css';
 
+import { IMG_PATH } from '../../helpers/api';
+
 function Card(props) {
-  const { name, overview, imagePath, poster_path, genre } = props;
+  const { name, overview, poster_path, genre } = props;
+  const imagePath = IMG_PATH;
   return (
-    <div className="movie" key={name}>
+    <div className="card" key={name}>
       <img
         src={
           JSON.stringify(poster_path).includes('null')
@@ -12,9 +15,9 @@ function Card(props) {
         }
         alt={name}
       />
-      <div className="movie-info">
+      <div className="card-info">
         <h3>{name}</h3>
-        <small>{genre}</small>
+        <small>{genre ? genre : <span>&nbsp;</span>}</small>
       </div>
       <div className="overview">
         <h3>Overview</h3>

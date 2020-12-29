@@ -1,6 +1,5 @@
-.movie {
-  width: 300px;
-  margin: 1rem;
+.card {
+  margin: 1rem 0.75rem;
   background-color: #fff;
   box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
   position: relative;
@@ -8,11 +7,11 @@
   border-radius: 3px;
 }
 
-.movie img {
+.card img {
   width: 100%;
 }
 
-.movie-info {
+.card-info {
   color: #1d2228;
   display: flex;
   flex-direction: column;
@@ -20,40 +19,16 @@
   letter-spacing: 0.5px;
 }
 
-.movie-info h3 {
+.card-info h3 {
   margin: 0;
 }
 
-.movie-info small,
-.movie h3 {
+.card-info small,
+.card h3 {
   width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-}
-
-.movie-info span {
-  background-color: #1d2228;
-  padding: 0.25rem 0.5rem;
-  border-radius: 3px;
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.movie-info span.green {
-  color: lightgreen;
-}
-
-.movie-info span.orange {
-  color: orange;
-}
-
-.movie-info span.red {
-  color: red;
-}
-
-.movie-info span.default {
-  color: #e1e2e2;
 }
 
 .overview {
@@ -75,12 +50,6 @@
   margin: 1rem 0 0;
 }
 
-.movie:hover .overview {
+.card:hover .overview {
   transform: translateY(0);
-}
-
-@media (max-width: 800px) {
-  .movie {
-    width: 40%;
-  }
 }

@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { IoMdArrowDropleft, IoMdArrowDropright } from 'react-icons/io';
-
-import Sections from './components/Sections';
+import CardGroup from './components/CardGroup';
 import Pagination from './components/Pagination';
 
 import { latestDate, currDate } from './helpers/date';
@@ -15,8 +13,6 @@ function App() {
   const [page, setPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(1);
 
-  const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
-
   const DISCOVER_API = `${KD_API}&${API_KEY}&page=${page}&${woGenre}`;
   const SEARCH_API = `https://api.themoviedb.org/3/search/tv?${API_KEY}&query="`;
   const LATEST_API = `${KD_API}&${woGenre}&first_air_date.gte=${latestDate}&first_air_date.lte=${currDate}&sort_by=first_air_date.desc&${API_KEY}&page=${page}`;
@@ -25,7 +21,7 @@ function App() {
   const WATCHING_API = `https://api.themoviedb.org/4/list/7069257?page=1&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
   const BEST_API = `https://api.themoviedb.org/4/list/7069430?page=1&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
 
-  const [renderSection, setRenderSection] = React.useState('');
+  const [renderSection, setRenderSection] = React.useState('best');
 
   const [searchTerm, setSearchTerm] = React.useState('');
   const [searchResult, setSearchResult] = React.useState();
@@ -106,10 +102,10 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <header>
-        <h1 onClick={() => window.location.reload()}>KDDb</h1>
-        <nav>
+    <div className="app">
+      <header className="app-header">
+        <h1 onClick={() => window.location.reload()}>KDDB</h1>
+        <nav className="app-header--nav">
           {navItems.map((item) => {
             return (
               <button
@@ -130,39 +126,27 @@ function App() {
             type="text"
             id="search"
             className="search"
-            placeholder="Search..."
+            placeholder="Search K-Drama..."
             onChange={searchDrama}
           />
         </form>
       </header>
 
-      <main id="main">
+      <main id="main" className="app-main">
         {searchTerm ? (
-          <Sections
-            drama={searchResult}
-            imagePath={IMG_PATH}
-            title="Search Result"
-          />
+          <CardGroup drama={searchResult} title="Search Result" />
         ) : renderSection === 'upcoming' ? (
-          <Sections drama={upcoming} imagePath={IMG_PATH} title="Coming Soon" />
+          <CardGroup drama={upcoming} title="Coming Soon" />
         ) : renderSection === 'watched' ? (
-          <Sections drama={watched} imagePath={IMG_PATH} title="Watched" />
+          <CardGroup drama={watched} title="Watched" />
         ) : renderSection === 'watching' ? (
-          <Sections
-            drama={watching}
-            imagePath={IMG_PATH}
-            title="Currently Watching"
-          />
+          <CardGroup drama={watching} title="Currently Watching" />
         ) : renderSection === 'latest' ? (
-          <Sections drama={latest} imagePath={IMG_PATH} title="New Releases" />
+          <CardGroup drama={latest} title="New Releases" />
         ) : renderSection === 'discover' ? (
-          <Sections drama={discover} imagePath={IMG_PATH} title="Discover" />
+          <CardGroup drama={discover} title="Discover" />
         ) : (
-          <Sections
-            drama={best}
-            imagePath={IMG_PATH}
-            title="KDDb's Best of 2020"
-          />
+          <CardGroup drama={best} title="Best of 2020" />
         )}
       </main>
       {renderPagination()}

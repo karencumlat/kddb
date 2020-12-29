@@ -1,13 +1,14 @@
 import Card from '../Card';
 import { genres } from '../../helpers/genres';
-import './sections.css';
 
-function Sections(props) {
-  const { drama, imagePath, title } = props;
+import './cardgroup.css';
+
+function CardGroup(props) {
+  const { drama, title } = props;
   return (
-    <section>
+    <div className="container">
       <h2>{title}</h2>
-      <div className="content">
+      <div className="card-group">
         {drama == null
           ? 'loading k-drama...'
           : drama.length === 0
@@ -26,23 +27,24 @@ function Sections(props) {
               const filterGenre = genre.filter((g) => g !== '');
 
               return (
-                <Card
-                  key={name}
-                  name={name}
-                  imagePath={imagePath}
-                  poster_path={poster_path}
-                  vote_average={vote_average}
-                  overview={overview}
-                  genre={filterGenre
-                    .toString()
-                    .replace(/,/g, ' • ')
-                    .replace(/Action & Adventure/g, 'Action')}
-                />
+                <div className="card-group--content">
+                  <Card
+                    key={name}
+                    name={name}
+                    poster_path={poster_path}
+                    vote_average={vote_average}
+                    overview={overview}
+                    genre={filterGenre
+                      .toString()
+                      .replace(/,/g, ' • ')
+                      .replace(/Action & Adventure/g, 'Action')}
+                  />
+                </div>
               );
             })}
       </div>
-    </section>
+    </div>
   );
 }
 
-export default Sections;
+export default CardGroup;

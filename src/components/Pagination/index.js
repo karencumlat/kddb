@@ -4,6 +4,7 @@ import './pagination.css';
 
 function Pagination(props) {
   const { page, totalPages, onClickPrev, onClickNext } = props;
+
   return (
     <div className="pagination">
       <span className="pagination-number">
