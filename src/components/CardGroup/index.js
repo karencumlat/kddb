@@ -27,9 +27,8 @@ function CardGroup(props) {
               const filterGenre = genre.filter((g) => g !== '');
 
               return (
-                <div className="card-group--content">
+                <div className="card-group--content" key={name}>
                   <Card
-                    key={name}
                     name={name}
                     poster_path={poster_path}
                     vote_average={vote_average}
