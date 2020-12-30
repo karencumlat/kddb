@@ -1,0 +1,30 @@
+.menu button {
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 1rem;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  color: #fff;
+  height: 40px;
+
+  letter-spacing: 0.05em;
+}
+
+.menu .active {
+  color: #fb8122;
+  font-weight: 700;
+}
+
+.menu button:hover {
+  color: #fb8122;
+  text-decoration: line-through;
+}
+
+.menu button:focus {
+  outline: none;
+}
+
+.active:hover {
+  color: #fff;
+}

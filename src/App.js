@@ -1,6 +1,8 @@
 import React from 'react';
 
 import CardGroup from './components/CardGroup';
+import Dropdown from './components/Dropdown';
+import Menu from './components/Menu';
 import Pagination from './components/Pagination';
 
 import { latestDate, currDate } from './helpers/date';
@@ -104,22 +106,25 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
+        <nav className="app-header--nav-mobile">
+          <Dropdown
+            items={navItems}
+            onClick={(e) => {
+              setRenderSection(e.target.value);
+            }}
+            selectedValue={renderSection}
+          />
+        </nav>
         <h1 onClick={() => window.location.reload()}>KDDB</h1>
-        <nav className="app-header--nav">
-          {navItems.map((item) => {
-            return (
-              <button
-                onClick={() => {
-                  setRenderSection(item.name);
-                  setPage(1);
-                }}
-                key={item.name}
-                className={item.name === renderSection ? 'active' : ''}
-              >
-                {item.title}
-              </button>
-            );
-          })}
+
+        <nav className="app-header--nav-web">
+          <Menu
+            selectedItem={renderSection}
+            items={navItems}
+            onClick={(e) => {
+              setRenderSection(e.target.value);
+            }}
+          />
         </nav>
         <form id="form">
           <input

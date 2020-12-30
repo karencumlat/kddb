@@ -29,10 +29,6 @@ body {
   cursor: pointer;
 }
 
-.app-header--nav {
-  flex-wrap: wrap;
-}
-
 .search {
   background-color: transparent;
   border: 2px solid #e1e2e2;
@@ -57,35 +53,8 @@ body {
   flex: 2;
 }
 
-.app-header--nav button {
-  text-transform: uppercase;
-  cursor: pointer;
-  padding: 1rem;
-  background-color: transparent;
-  border: none;
-  font-size: 1rem;
-  color: #fff;
-  height: 40px;
-
-  letter-spacing: 0.05em;
-}
-
-.app-header--nav .active {
-  color: #fb8122;
-  font-weight: 700;
-}
-
-.app-header--nav button:hover {
-  color: #fb8122;
-  text-decoration: line-through;
-}
-
-.app-header--nav button:focus {
-  outline: none;
-}
-
-.active:hover {
-  color: #fff;
+.app-header--nav-mobile {
+  display: none;
 }
 
 .app-main {
@@ -103,18 +72,14 @@ body {
 
 @media (max-width: 800px) {
   .app-header {
-    flex-direction: column;
+    justify-content: space-between;
   }
 
-  .search {
-    width: 85vw;
+  .app-header--nav-web {
+    display: none;
   }
 
-  .app-header--nav {
-    justify-content: space-around;
-  }
-
-  .app-header--nav button {
-    padding: 0 1rem 0 0;
+  .app-header--nav-mobile {
+    display: block;
   }
 }
