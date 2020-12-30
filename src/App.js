@@ -105,19 +105,34 @@ function App() {
 
   return (
     <div className="app">
-      <header className="app-header">
-        <nav className="app-header--nav-mobile">
-          <Dropdown
-            items={navItems}
-            onClick={(e) => {
-              setRenderSection(e.target.value);
-            }}
-            selectedValue={renderSection}
+      <header className="app-header--mobile">
+        <span className="app-header--mobile-nav">
+          <h1 onClick={() => window.location.reload()}>KDDB</h1>
+          <nav className="">
+            <Dropdown
+              items={navItems}
+              onClick={(e) => {
+                setRenderSection(e.target.value);
+              }}
+              selectedValue={renderSection}
+            />
+          </nav>
+        </span>
+        <form id="form">
+          <input
+            type="text"
+            id="search"
+            className="search"
+            placeholder="Search K-Drama..."
+            onChange={searchDrama}
           />
-        </nav>
+        </form>
+      </header>
+
+      <header className="app-header">
         <h1 onClick={() => window.location.reload()}>KDDB</h1>
 
-        <nav className="app-header--nav-web">
+        <nav className="app-header--nav">
           <Menu
             selectedItem={renderSection}
             items={navItems}

@@ -53,7 +53,7 @@ body {
   flex: 2;
 }
 
-.app-header--nav-mobile {
+.app-header--mobile {
   display: none;
 }
 
@@ -72,14 +72,24 @@ body {
 
 @media (max-width: 800px) {
   .app-header {
-    justify-content: space-between;
-  }
-
-  .app-header--nav-web {
     display: none;
   }
 
-  .app-header--nav-mobile {
-    display: block;
+  .app-header--mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .app-header--mobile-nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .search {
+    width: 80vw;
   }
 }

@@ -9,7 +9,7 @@ function Dropdown(props) {
   const [toggleNav, setToggleNav] = React.useState(false);
 
   const handleToggle = () => setToggleNav(!toggleNav);
-  console.log(selectedValue);
+
   return (
     <>
       <button className="trigger-button" onClick={handleToggle}>
