@@ -2,6 +2,7 @@ import React from 'react';
 
 import CardGroup from './components/CardGroup';
 import Dropdown from './components/Dropdown';
+import Feature from './components/Feature';
 import Menu from './components/Menu';
 import Pagination from './components/Pagination';
 
@@ -37,6 +38,8 @@ function App() {
   const [watching, setWatching] = React.useState();
   const [watched, setWatched] = React.useState();
 
+  const [featID, setFeatID] = React.useState();
+
   React.useEffect(() => {
     // Loads URL to fetch data from API
     if (searchTerm) loadSearch(SEARCH_API + searchTerm);
@@ -66,6 +69,7 @@ function App() {
     setLoading(false);
   }
 
+  // Fetch API data
   async function loadResults(url) {
     const res = await fetch(url);
     const data = await res.json();
@@ -79,7 +83,7 @@ function App() {
       : renderSection === 'watched'
       ? setWatched(data.results)
       : renderSection === 'watching'
-      ? setWatching(data.results)
+      ? setFeatID(data.results[0].id)
       : setDiscover(data.results);
 
     setLoading(false);
@@ -104,6 +108,10 @@ function App() {
     ) : (
       ''
     );
+  }
+
+  if (featID) {
+    localStorage.setItem('featID', featID);
   }
 
   return (
@@ -166,7 +174,7 @@ function App() {
         ) : renderSection === 'watched' ? (
           <CardGroup drama={watched} title="Watched" />
         ) : renderSection === 'watching' ? (
-          <CardGroup drama={watching} title="Watching" />
+          <Feature id={featID} title="Watching" />
         ) : renderSection === 'latest' ? (
           <CardGroup drama={latest} title="New Releases" />
         ) : (
