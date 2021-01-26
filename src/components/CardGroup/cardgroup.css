@@ -1,5 +1,7 @@
 .card-group {
   display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
@@ -8,17 +10,24 @@
 }
 
 .card-group--content {
-  width: 20%;
+  margin: 1rem 0;
+  width: calc((100vw -1em) / 6);
 }
 
 @media (max-width: 1024px) {
   .card-group--content {
-    width: 33%;
+    width: calc((100vw -1em) / 5);
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 768px) {
   .card-group--content {
-    width: 50%;
+    width: calc((100vw -1em) / 4);
+  }
+}
+
+@media (max-width: 500px) {
+  .card-group--content {
+    width: 100%;
   }
 }
