@@ -3,9 +3,22 @@ const yr = current.getFullYear();
 const mo = current.getMonth() + 1;
 const dy = current.getDate();
 
-const delay = mo - 2;
+let day;
+let delay;
+
+if (dy < 10) {
+  day = `0${dy}`;
+} else {
+  day = dy;
+}
+
+if (mo === 1) {
+  delay = 12;
+} else {
+  delay = mo - 1;
+}
 
 export const latestDate =
-  delay < 10 ? `${yr}-0${delay}-${dy}` : `${yr}-${delay}-${dy}`;
+  delay < 10 ? `${yr}-0${delay}-${day}` : `${yr}-${delay}-${day}`;
 
-export const currDate = `${yr}-${mo}-${dy}`;
+export const currDate = mo < 10 ? `${yr}-0${mo}-${day}` : `${yr}-${mo}-${day}`;
