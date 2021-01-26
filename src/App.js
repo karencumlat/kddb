@@ -5,38 +5,40 @@ import Dropdown from './components/Dropdown';
 import Menu from './components/Menu';
 import Pagination from './components/Pagination';
 
-import { latestDate, currDate } from './helpers/date';
 import { KD_API, API_KEY, woGenre } from './helpers/api';
+import { latestDate, currDate } from './helpers/date';
 import { navItems } from './helpers/navItems';
 
 import './App.css';
 
 function App() {
+  const [isLoading, setLoading] = React.useState(true);
   const [page, setPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(1);
 
-  const DISCOVER_API = `${KD_API}&${API_KEY}&page=${page}&${woGenre}`;
   const SEARCH_API = `https://api.themoviedb.org/3/search/tv?${API_KEY}&query="`;
+  const DISCOVER_API = `${KD_API}&${API_KEY}&page=${page}&${woGenre}`;
   const LATEST_API = `${KD_API}&${woGenre}&first_air_date.gte=${latestDate}&first_air_date.lte=${currDate}&sort_by=first_air_date.desc&${API_KEY}&page=${page}`;
   const UPCOMING_API = `${KD_API}&${woGenre}&first_air_date.gte=${currDate}&sort_by=first_air_date.asc&${API_KEY}`;
-  const WATCHED_API = `https://api.themoviedb.org/4/list/7069256?page=${page}&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
   const WATCHING_API = `https://api.themoviedb.org/4/list/7069257?page=1&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
-  const BEST_API = `https://api.themoviedb.org/4/list/7069430?page=1&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
+  const WATCHED_API = `https://api.themoviedb.org/4/list/7069256?page=${page}&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
 
-  const [renderSection, setRenderSection] = React.useState('best');
+  // Set which section to render, default `discover`
+  const [renderSection, setRenderSection] = React.useState('discover');
 
+  //TODO: Fix searching without typing exact title
   const [searchTerm, setSearchTerm] = React.useState('');
   const [searchResult, setSearchResult] = React.useState();
 
+  //Data from API
   const [discover, setDiscover] = React.useState();
   const [latest, setLatest] = React.useState();
   const [upcoming, setUpcoming] = React.useState();
-  const [watched, setWatched] = React.useState();
   const [watching, setWatching] = React.useState();
-
-  const [best, setBest] = React.useState();
+  const [watched, setWatched] = React.useState();
 
   React.useEffect(() => {
+    // Loads URL to fetch data from API
     if (searchTerm) loadSearch(SEARCH_API + searchTerm);
     renderSection === 'latest'
       ? loadResults(LATEST_API)
@@ -46,10 +48,12 @@ function App() {
       ? loadResults(WATCHED_API)
       : renderSection === 'watching'
       ? loadResults(WATCHING_API)
-      : renderSection === 'discover'
-      ? loadResults(DISCOVER_API)
-      : loadResults(BEST_API);
+      : loadResults(DISCOVER_API);
   }, [searchTerm, page, renderSection]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   async function loadSearch(url) {
     const res = await fetch(url);
@@ -59,6 +63,7 @@ function App() {
     );
 
     setSearchResult(searchResults);
+    setLoading(false);
   }
 
   async function loadResults(url) {
@@ -75,9 +80,9 @@ function App() {
       ? setWatched(data.results)
       : renderSection === 'watching'
       ? setWatching(data.results)
-      : renderSection === 'discover'
-      ? setDiscover(data.results)
-      : setBest(data.results);
+      : setDiscover(data.results);
+
+    setLoading(false);
   }
 
   function searchDrama(e) {
@@ -85,9 +90,7 @@ function App() {
   }
 
   function renderPagination() {
-    return renderSection === 'watched' ||
-      renderSection === 'latest' ||
-      renderSection === 'discover' ? (
+    return totalPages > 1 ? (
       <section className="section-pagination">
         <Pagination
           page={page}
@@ -105,6 +108,7 @@ function App() {
 
   return (
     <div className="app">
+      {/** Mobile Navigation*/}
       <header className="app-header--mobile">
         <span className="app-header--mobile-nav">
           <h1 onClick={() => window.location.reload()}>KDDB</h1>
@@ -112,6 +116,7 @@ function App() {
             <Dropdown
               items={navItems}
               onClick={(e) => {
+                setPage(1);
                 setRenderSection(e.target.value);
               }}
               selectedValue={renderSection}
@@ -128,7 +133,7 @@ function App() {
           />
         </form>
       </header>
-
+      {/** Web Navigation*/}
       <header className="app-header">
         <h1 onClick={() => window.location.reload()}>KDDB</h1>
 
@@ -137,6 +142,7 @@ function App() {
             selectedItem={renderSection}
             items={navItems}
             onClick={(e) => {
+              setPage(1);
               setRenderSection(e.target.value);
             }}
           />
@@ -160,13 +166,11 @@ function App() {
         ) : renderSection === 'watched' ? (
           <CardGroup drama={watched} title="Watched" />
         ) : renderSection === 'watching' ? (
-          <CardGroup drama={watching} title="Currently Watching" />
+          <CardGroup drama={watching} title="Watching" />
         ) : renderSection === 'latest' ? (
           <CardGroup drama={latest} title="New Releases" />
-        ) : renderSection === 'discover' ? (
-          <CardGroup drama={discover} title="Discover" />
         ) : (
-          <CardGroup drama={best} title="Best of 2020" />
+          <CardGroup drama={discover} title="Discover" />
         )}
       </main>
       {renderPagination()}

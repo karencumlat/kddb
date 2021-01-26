@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap');
 
+html {
+  transition: all 0.4s ease-in;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -10,9 +14,10 @@ body {
   background-color: #1d2228;
   font-family: 'IBM Plex Sans', sans-serif;
   margin: 0 auto;
-  padding: 1em 2em;
+  padding: 2em 4em;
   color: #fff;
   height: 100vh;
+  transition: 0.4s ease;
 }
 
 .app-header {
@@ -21,7 +26,8 @@ body {
   align-items: center;
 }
 
-.app-header h1 {
+.app-header h1,
+.app-header--mobile h1 {
   margin: 0 0.5em 0 0;
   color: #fb8122;
   font-weight: bold;
@@ -55,12 +61,6 @@ body {
 
 .app-header--mobile {
   display: none;
-}
-
-.app-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .section-pagination {
