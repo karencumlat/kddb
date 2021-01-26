@@ -1,9 +1,5 @@
 export const navItems = [
   {
-    name: 'best',
-    title: 'Best of 2020',
-  },
-  {
     name: 'discover',
     title: 'Discover',
   },
