@@ -13,14 +13,17 @@ function Card(props) {
             ? 'https://images.unsplash.com/photo-1540483761890-a1f7be05d99f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=645&q=80'
             : imagePath + poster_path
         }
+        loading="lazy"
         alt={name}
       />
       <div className="card-info">
-        <h3>{name}</h3>
+        <h3 title={name}>{name}</h3>
         <small>{genre ? genre : <span>&nbsp;</span>}</small>
       </div>
       <div className="overview">
-        <h3>Overview</h3>
+        <h3 title={name}>{name}</h3>
+        <small>{genre ? genre : ''}</small>
+        <h4>Overview</h4>
         {overview}
       </div>
     </div>
