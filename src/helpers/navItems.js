@@ -1,11 +1,11 @@
 export const navItems = [
   {
     name: 'discover',
-    title: 'Discover',
+    title: 'All Shows',
   },
   {
     name: 'latest',
-    title: 'New Releases',
+    title: 'On Air',
   },
   {
     name: 'upcoming',
