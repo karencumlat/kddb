@@ -2,12 +2,11 @@ import React from 'react';
 
 import CardGroup from './components/CardGroup';
 import Dropdown from './components/Dropdown';
-import Feature from './components/Feature';
 import Menu from './components/Menu';
 import Pagination from './components/Pagination';
 
-import { KD_API, API_KEY, woGenre } from './helpers/api';
-import { latestDate, currDate } from './helpers/date';
+import { URL_API, KD_API, API_KEY, woGenre, EN_US } from './helpers/api';
+import { currDate } from './helpers/date';
 import { navItems } from './helpers/navItems';
 
 import './App.css';
@@ -17,9 +16,9 @@ function App() {
   const [page, setPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(1);
 
-  const SEARCH_API = `https://api.themoviedb.org/3/search/tv?${API_KEY}&query="`;
+  const SEARCH_API = `https://api.themoviedb.org/3/search/tv?${API_KEY}&${EN_US}&page=${page}&query="`;
   const DISCOVER_API = `${KD_API}&${API_KEY}&page=${page}&${woGenre}`;
-  const LATEST_API = `${KD_API}&${woGenre}&first_air_date.gte=${latestDate}&first_air_date.lte=${currDate}&sort_by=first_air_date.desc&${API_KEY}&page=${page}`;
+  const LATEST_API = `${URL_API}tv/on_the_air?with_original_language=ko&${woGenre}&${API_KEY}&page=${page}`;
   const UPCOMING_API = `${KD_API}&${woGenre}&first_air_date.gte=${currDate}&sort_by=first_air_date.asc&${API_KEY}`;
   const WATCHING_API = `https://api.themoviedb.org/4/list/7069257?page=1&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
   const WATCHED_API = `https://api.themoviedb.org/4/list/7069256?page=${page}&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
@@ -37,8 +36,6 @@ function App() {
   const [upcoming, setUpcoming] = React.useState();
   const [watching, setWatching] = React.useState();
   const [watched, setWatched] = React.useState();
-
-  const [featID, setFeatID] = React.useState();
 
   React.useEffect(() => {
     // Loads URL to fetch data from API
@@ -61,6 +58,8 @@ function App() {
   async function loadSearch(url) {
     const res = await fetch(url);
     const data = await res.json();
+    setTotalPages(data.total_pages);
+
     const searchResults = data.results.filter(
       (result) => result.original_language === 'ko'
     );
@@ -83,15 +82,15 @@ function App() {
       : renderSection === 'watched'
       ? setWatched(data.results)
       : renderSection === 'watching'
-      ? setFeatID(data.results[0].id)
+      ? setWatching(data.results)
       : setDiscover(data.results);
 
     setLoading(false);
   }
 
-  function searchDrama(e) {
-    setSearchTerm(e.target.value);
-  }
+  // function searchDrama(e) {
+  //   setSearchTerm(e.target.value);
+  // }
 
   function renderPagination() {
     return totalPages > 1 ? (
@@ -108,10 +107,6 @@ function App() {
     ) : (
       ''
     );
-  }
-
-  if (featID) {
-    localStorage.setItem('featID', featID);
   }
 
   return (
@@ -131,7 +126,7 @@ function App() {
             />
           </nav>
         </span>
-        <form id="form">
+        {/* <form id="form">
           <input
             type="text"
             id="search"
@@ -139,7 +134,7 @@ function App() {
             placeholder="Search K-Drama..."
             onChange={searchDrama}
           />
-        </form>
+        </form> */}
       </header>
       {/** Web Navigation*/}
       <header className="app-header">
@@ -155,7 +150,7 @@ function App() {
             }}
           />
         </nav>
-        <form id="form">
+        {/* <form id="form">
           <input
             type="text"
             id="search"
@@ -163,7 +158,7 @@ function App() {
             placeholder="Search K-Drama..."
             onChange={searchDrama}
           />
-        </form>
+        </form> */}
       </header>
 
       <main id="main" className="app-main">
@@ -174,7 +169,7 @@ function App() {
         ) : renderSection === 'watched' ? (
           <CardGroup drama={watched} title="Watched" />
         ) : renderSection === 'watching' ? (
-          <Feature id={featID} title="Watching" />
+          <CardGroup drama={watching} title="Watching" />
         ) : renderSection === 'latest' ? (
           <CardGroup drama={latest} title="New Releases" />
         ) : (
