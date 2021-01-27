@@ -1,4 +1,5 @@
 import Card from '../Card';
+import Feature from '../Feature';
 import NoResults from '../NoResults';
 
 import { genres } from '../../helpers/genres';
@@ -29,6 +30,21 @@ function CardGroup(props) {
               genre_ids.includes(g.id) === true ? g.name : ''
             );
             const filterGenre = genre.filter((g) => g !== '');
+
+            if (title === 'Watching') {
+              return (
+                <Feature
+                  name={name}
+                  overview={overview}
+                  genre={filterGenre
+                    .toString()
+                    .replace(/,/g, ' • ')
+                    .replace(/Action & Adventure/g, 'Action')}
+                  backdrop_path={drama.backdrop_path}
+                  first_air_date={drama.first_air_date}
+                />
+              );
+            }
 
             return (
               <div className="card-group--content" key={name}>
