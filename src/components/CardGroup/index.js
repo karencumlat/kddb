@@ -34,6 +34,7 @@ function CardGroup(props) {
             if (title === 'Watching') {
               return (
                 <Feature
+                  key={name}
                   name={name}
                   overview={overview}
                   genre={filterGenre

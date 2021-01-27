@@ -9,7 +9,7 @@ function Feature(props) {
   const imagePath = IMG_PATH;
 
   return (
-    <div key={name} className="watching-container">
+    <div className="watching-container">
       <div
         className="watching--backdrop"
         style={{
