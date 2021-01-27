@@ -24,15 +24,25 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  background-color: #1d2228;
+  width: calc(100vw - 9em);
+  padding: 2em 0;
 }
 
 .app-header h1,
 .app-header--mobile h1 {
-  margin: 0 0.5em 0 0;
+  margin: 0 1em 0 0;
   color: #fb8122;
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.app-main {
+  margin-top: 5em;
 }
 
 .search {
@@ -71,6 +81,10 @@ body {
 }
 
 @media (max-width: 800px) {
+  body {
+    padding: 2em;
+  }
+
   .app-header {
     display: none;
   }
@@ -91,5 +105,9 @@ body {
 
   .search {
     width: 80vw;
+  }
+
+  .app-main {
+    margin: 0;
   }
 }
