@@ -25,9 +25,3 @@
     width: calc((100vw -1em) / 4);
   }
 }
-
-@media (max-width: 500px) {
-  .card-group--content {
-    width: 100%;
-  }
-}

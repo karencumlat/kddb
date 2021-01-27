@@ -53,3 +53,21 @@
 .card:hover .overview {
   transform: translateY(0);
 }
+
+@media (max-width: 768px) {
+  .card-info {
+    padding: 0.5em;
+  }
+  .card-info h3 {
+    font-size: 0.8em;
+  }
+
+  .card-info small {
+    font-size: 0.6em;
+  }
+
+  .overview {
+    font-size: 0.7em;
+    padding: 1em;
+  }
+}
