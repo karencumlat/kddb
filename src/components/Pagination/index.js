@@ -11,11 +11,21 @@ function Pagination(props) {
         {page} of {totalPages} pages
       </span>
       <span className="divider"></span>
-      <button className="pagination-previous" onClick={onClickPrev}>
+      <button
+        className="pagination-previous"
+        onClick={onClickPrev}
+        aria-label="Previous"
+        title="Previous"
+      >
         <IoMdArrowDropleft />
       </button>
       <span className="divider"></span>
-      <button className="pagination-next" onClick={onClickNext}>
+      <button
+        className="pagination-next"
+        onClick={onClickNext}
+        aria-label="Next"
+        title="Next"
+      >
         <IoMdArrowDropright />
       </button>
     </div>
