@@ -17,10 +17,9 @@ function MobileMenu(props) {
             <IconContext.Provider
               value={{ size: '1.25em', className: 'mobile-icon' }}
             >
-              <span className="mobile-menu--item-icon" value={item.name}>
-                {item.icon}
-              </span>
+              {item.icon}
             </IconContext.Provider>
+            <span>{item.title}</span>
           </button>
         );
       })}
