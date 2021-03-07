@@ -10,10 +10,6 @@ button {
   cursor: pointer;
 }
 
-button:focus {
-  outline: none;
-}
-
 .trigger-button {
   background-color: #272d36;
   width: 125px;
