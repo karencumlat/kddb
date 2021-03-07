@@ -9,6 +9,7 @@ function MobileMenu(props) {
       {items.map((item) => {
         return (
           <button
+            aria-label={item.title}
             onClick={onClick}
             value={item.name}
             className={item.name === selectedItem ? 'active' : ''}
