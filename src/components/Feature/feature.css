@@ -1,19 +1,32 @@
+.watching-container {
+  width: 100%;
+  height: 100%;
+  margin: 3em 0 0;
+}
+
 .watching--backdrop {
   position: relative;
-  height: 30em;
-  background-size: cover;
-  background-position: center center;
+  height: 25em;
+  background-size: auto;
+  background-position: top right;
+  background-repeat: no-repeat;
   overflow: hidden;
   border-radius: 3px;
 }
 
 .backdrop--info-mobile {
-  visibility: hidden;
+  display: none;
 }
 
 .backdrop--info {
   background: rgb(0, 0, 0);
-  background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.3));
+  /* background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.3)); */
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 25%,
+    rgba(0, 0, 0, 0.75) 50%,
+    rgba(0, 0, 0, 0.3)
+  );
   color: #f1f1f1;
   width: 100%;
   height: 100%;
@@ -24,30 +37,39 @@
 }
 
 .backdrop--info-title {
-  font-size: 4em;
+  font-size: 3.75em;
+}
+
+.backdrop--info-subtitle {
+  font-size: 0.75em;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .backdrop--info-overview {
   margin-top: 0.5em;
-  font-size: 0.95em;
   max-width: 35%;
 }
 
 @media (max-width: 800px) {
   .backdrop--info {
-    visibility: hidden;
+    display: none;
+  }
+
+  .watching-container {
+    margin: 1em 0 0;
   }
 
   .backdrop--info-mobile {
-    visibility: visible;
+    display: block;
   }
 
   .watching--backdrop {
     height: 10em;
+    background-size: cover;
   }
 
   .backdrop--info-title {
-    font-size: 1.5em;
+    font-size: 1.25rem;
     margin: 0.25em 0;
   }
 
