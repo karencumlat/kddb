@@ -1,28 +1,28 @@
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .menu button {
   text-transform: uppercase;
   cursor: pointer;
   padding: 1rem;
   background-color: transparent;
   border: none;
-  font-size: 1rem;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
   height: 40px;
-
   letter-spacing: 0.05em;
+  font-size: 0.875rem;
 }
 
 .menu .active {
-  color: #fb8122;
+  color: #fff;
   font-weight: 700;
 }
 
 .menu button:hover {
-  color: #fb8122;
+  color: #fff;
   text-decoration: line-through;
-}
-
-.menu button:focus {
-  outline: none;
 }
 
 .active:hover {

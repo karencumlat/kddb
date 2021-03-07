@@ -1,7 +1,8 @@
 import React from 'react';
 
+import MobileMenu from './components/MobileMenu';
+
 import CardGroup from './components/CardGroup';
-import Dropdown from './components/Dropdown';
 import Menu from './components/Menu';
 import Pagination from './components/Pagination';
 
@@ -115,17 +116,15 @@ function App() {
       <header className="app-header--mobile">
         <span className="app-header--mobile-nav">
           <h1 onClick={() => window.location.reload()}>KDDB</h1>
-          <nav className="">
-            <Dropdown
-              items={navItems}
-              onClick={(e) => {
-                setPage(1);
-                setRenderSection(e.target.value);
-              }}
-              selectedValue={renderSection}
-            />
-          </nav>
         </span>
+        <MobileMenu
+          items={navItems}
+          onClick={(e) => {
+            setRenderSection(e.target.value);
+            setPage(1);
+          }}
+          selectedValue={renderSection}
+        />
         {/* <form id="form">
           <input
             type="text"

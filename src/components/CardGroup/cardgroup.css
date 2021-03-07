@@ -6,7 +6,7 @@
 }
 
 .container h2 {
-  margin: 1em 0;
+  font-size: 1.5rem;
 }
 
 .card-group--content {
@@ -21,6 +21,10 @@
 }
 
 @media (max-width: 768px) {
+  .container h2 {
+    margin: 0;
+  }
+
   .card-group--content {
     width: calc((100vw -1em) / 4);
   }
