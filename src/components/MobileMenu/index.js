@@ -2,7 +2,7 @@ import { IconContext } from 'react-icons';
 import './mobilemenu.css';
 
 function MobileMenu(props) {
-  const { items, onClick, selectedValue } = props;
+  const { items, onClick, selectedItem } = props;
 
   return (
     <div className="mobile-menu">
@@ -11,7 +11,7 @@ function MobileMenu(props) {
           <button
             onClick={onClick}
             value={item.name}
-            className={item.name === selectedValue ? 'active' : ''}
+            className={item.name === selectedItem ? 'active' : ''}
             key={item.name}
           >
             <IconContext.Provider

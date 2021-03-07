@@ -118,12 +118,12 @@ function App() {
           <h1 onClick={() => window.location.reload()}>KDDB</h1>
         </span>
         <MobileMenu
+          selectedItem={renderSection}
           items={navItems}
           onClick={(e) => {
             setRenderSection(e.target.value);
             setPage(1);
           }}
-          selectedValue={renderSection}
         />
         {/* <form id="form">
           <input
