@@ -33,6 +33,7 @@ function Card(props) {
             value={{ size: '2em', className: 'overview-close-btn' }}
           >
             <button
+              aria-label="Close"
               onClick={() => {
                 setOverview(!onOverView);
                 setTimeout(() => setOverview(true), 1000);
