@@ -23,7 +23,7 @@ body {
   background-color: #1d2228;
   font-family: 'IBM Plex Sans', sans-serif;
   margin: 0 auto;
-  padding: 2em 4em;
+  padding: 2em;
   color: #fff;
   height: 100vh;
   transition: 0.4s ease;
@@ -89,7 +89,28 @@ body {
   justify-content: flex-end;
 }
 
-@media (max-width: 800px) {
+.card-group {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.container h2 {
+  font-size: 1.5rem;
+}
+
+.card-group--content {
+  padding: 1rem 0.5rem;
+  width: 14%;
+}
+
+@media (max-width: 1024px) {
+  .card-group--content {
+    width: 16.5%;
+  }
+}
+
+@media (max-width: 768px) {
   body {
     padding: 1em;
   }
@@ -119,5 +140,9 @@ body {
 
   .app-main {
     margin: 0;
+  }
+
+  .card-group--content {
+    width: 25%;
   }
 }

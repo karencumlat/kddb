@@ -4,27 +4,27 @@ import { BsFillCollectionPlayFill, BsFillCollectionFill } from 'react-icons/bs';
 
 export const navItems = [
   {
-    name: 'discover',
+    name: 'DISCOVER',
     title: 'All Shows',
     icon: <IoMdHome />,
   },
   {
-    name: 'latest',
+    name: 'LATEST',
     title: 'On Air',
     icon: <IoIosPlayCircle />,
   },
   {
-    name: 'upcoming',
+    name: 'UPCOMING',
     title: 'Upcoming',
     icon: <GoBookmark />,
   },
   {
-    name: 'watching',
+    name: 'WATCHING',
     title: 'Watching',
     icon: <BsFillCollectionPlayFill />,
   },
   {
-    name: 'watched',
+    name: 'WATCHED',
     title: 'Watched',
     icon: <BsFillCollectionFill />,
   },

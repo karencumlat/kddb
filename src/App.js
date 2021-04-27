@@ -1,114 +1,39 @@
-import React from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 
-import MobileMenu from './components/MobileMenu';
-
-import CardGroup from './components/CardGroup';
-import Menu from './components/Menu';
-import Pagination from './components/Pagination';
-
-import { URL_API, KD_API, API_KEY, woGenre, EN_US } from './helpers/api';
-import { currDate } from './helpers/date';
+import useDramaFetch from './helpers/useDramaFetch';
 import { navItems } from './helpers/navItems';
-
+import { genres } from './helpers/genres';
 import './App.css';
 
-function App() {
-  const [isLoading, setLoading] = React.useState(true);
-  const [page, setPage] = React.useState(1);
-  const [totalPages, setTotalPages] = React.useState(1);
+import MobileMenu from './components/MobileMenu';
+import Card from './components/Card';
+import Feature from './components/Feature';
+import Menu from './components/Menu';
 
-  const SEARCH_API = `https://api.themoviedb.org/3/search/tv?${API_KEY}&${EN_US}&page=${page}&query="`;
-  const DISCOVER_API = `${KD_API}&${API_KEY}&page=${page}&${woGenre}`;
-  const LATEST_API = `${URL_API}tv/on_the_air?with_original_language=ko&${woGenre}&${API_KEY}&page=${page}`;
-  const UPCOMING_API = `${KD_API}&${woGenre}&first_air_date.gte=${currDate}&sort_by=first_air_date.asc&${API_KEY}`;
-  const WATCHING_API = `https://api.themoviedb.org/4/list/7069257?page=1&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
-  const WATCHED_API = `https://api.themoviedb.org/4/list/7069256?page=${page}&api_key=299cd45add63bfb2f4b534e2c123c7bb`;
+export default function App() {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [renderSection, setRenderSection] = React.useState('DISCOVER'); // Set which section to render, default `discover`
 
-  // Set which section to render, default `discover`
-  const [renderSection, setRenderSection] = React.useState('discover');
+  const { dramas, hasMore, loading, error } = useDramaFetch(
+    pageNumber,
+    renderSection
+  );
 
-  //TODO: Fix searching without typing exact title
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [searchResult, setSearchResult] = React.useState();
+  const observer = useRef();
+  const lastDramaRef = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
 
-  //Data from API
-  const [discover, setDiscover] = React.useState();
-  const [latest, setLatest] = React.useState();
-  const [upcoming, setUpcoming] = React.useState();
-  const [watching, setWatching] = React.useState();
-  const [watched, setWatched] = React.useState();
-
-  React.useEffect(() => {
-    // Loads URL to fetch data from API
-    if (searchTerm) loadSearch(SEARCH_API + searchTerm);
-    renderSection === 'latest'
-      ? loadResults(LATEST_API)
-      : renderSection === 'upcoming'
-      ? loadResults(UPCOMING_API)
-      : renderSection === 'watched'
-      ? loadResults(WATCHED_API)
-      : renderSection === 'watching'
-      ? loadResults(WATCHING_API)
-      : loadResults(DISCOVER_API);
-  }, [searchTerm, page, renderSection]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  async function loadSearch(url) {
-    const res = await fetch(url);
-    const data = await res.json();
-    setTotalPages(data.total_pages);
-
-    const searchResults = data.results.filter(
-      (result) => result.original_language === 'ko'
-    );
-
-    setSearchResult(searchResults);
-    setLoading(false);
-  }
-
-  // Fetch API data
-  async function loadResults(url) {
-    const res = await fetch(url);
-    const data = await res.json();
-
-    setTotalPages(data.total_pages);
-
-    renderSection === 'latest'
-      ? setLatest(data.results)
-      : renderSection === 'upcoming'
-      ? setUpcoming(data.results)
-      : renderSection === 'watched'
-      ? setWatched(data.results)
-      : renderSection === 'watching'
-      ? setWatching(data.results)
-      : setDiscover(data.results);
-
-    setLoading(false);
-  }
-
-  // function searchDrama(e) {
-  //   setSearchTerm(e.target.value);
-  // }
-
-  function renderPagination() {
-    return totalPages > 1 ? (
-      <section className="section-pagination">
-        <Pagination
-          page={page}
-          totalPages={totalPages}
-          onClickPrev={() => (page === 1 ? setPage(1) : setPage(page - 1))}
-          onClickNext={() =>
-            page === totalPages ? setPage(page) : setPage(page + 1)
-          }
-        />
-      </section>
-    ) : (
-      ''
-    );
-  }
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
 
   return (
     <div className="app">
@@ -122,18 +47,18 @@ function App() {
           items={navItems}
           onClick={(e) => {
             setRenderSection(e.target.value);
-            setPage(1);
+            setPageNumber(1);
           }}
         />
         {/* <form id="form">
-          <input
-            type="text"
-            id="search"
-            className="search"
-            placeholder="Search K-Drama..."
-            onChange={searchDrama}
-          />
-        </form> */}
+        <input
+          type="text"
+          id="search"
+          className="search"
+          placeholder="Search K-Drama..."
+          onChange={searchDrama}
+        />
+      </form> */}
       </header>
       {/** Web Navigation*/}
       <header className="app-header">
@@ -144,40 +69,92 @@ function App() {
             selectedItem={renderSection}
             items={navItems}
             onClick={(e) => {
-              setPage(1);
+              setPageNumber(1);
               setRenderSection(e.target.value);
             }}
           />
         </nav>
         {/* <form id="form">
-          <input
-            type="text"
-            id="search"
-            className="search"
-            placeholder="Search K-Drama..."
-            onChange={searchDrama}
-          />
-        </form> */}
+        <input
+          type="text"
+          id="search"
+          className="search"
+          placeholder="Search K-Drama..."
+          onChange={searchDrama}
+        />
+      </form> */}
       </header>
-
       <main id="main" className="app-main">
-        {searchTerm ? (
-          <CardGroup drama={searchResult} title="Search Result" />
-        ) : renderSection === 'upcoming' ? (
-          <CardGroup drama={upcoming} title="Coming Soon" />
-        ) : renderSection === 'watched' ? (
-          <CardGroup drama={watched} title="Watched" />
-        ) : renderSection === 'watching' ? (
-          <CardGroup drama={watching} title="Watching" />
-        ) : renderSection === 'latest' ? (
-          <CardGroup drama={latest} title="New Releases" />
-        ) : (
-          <CardGroup drama={discover} title="Discover" />
-        )}
+        <h2>{renderSection}</h2>
+        <div className="card-group">
+          {dramas.map((drama, index) => {
+            const {
+              name,
+              poster_path,
+              vote_average,
+              overview,
+              genre_ids,
+            } = drama;
+            const genre = genres.map((g) =>
+              genre_ids.includes(g.id) === true ? g.name : ''
+            );
+            const filterGenre = genre.filter((g) => g !== '');
+            if (renderSection === 'WATCHING') {
+              return (
+                <Feature
+                  key={name}
+                  name={name}
+                  overview={overview}
+                  genre={filterGenre
+                    .toString()
+                    .replace(/,/g, ' • ')
+                    .replace(/Action & Adventure/g, 'Action')}
+                  backdrop_path={drama.backdrop_path}
+                  first_air_date={drama.first_air_date}
+                />
+              );
+            }
+            if (dramas.length === index + 1) {
+              return (
+                <div
+                  className="card-group--content"
+                  key={name}
+                  ref={lastDramaRef}
+                >
+                  <Card
+                    name={name}
+                    poster_path={poster_path}
+                    vote_average={vote_average}
+                    overview={overview}
+                    genre={filterGenre
+                      .toString()
+                      .replace(/,/g, ' • ')
+                      .replace(/Action & Adventure/g, 'Action')}
+                  />
+                </div>
+              );
+            } else {
+              return (
+                <div className="card-group--content" key={name}>
+                  <Card
+                    name={name}
+                    poster_path={poster_path}
+                    vote_average={vote_average}
+                    overview={overview}
+                    genre={filterGenre
+                      .toString()
+                      .replace(/,/g, ' • ')
+                      .replace(/Action & Adventure/g, 'Action')}
+                  />
+                </div>
+              );
+            }
+          })}
+        </div>
+
+        <div>{loading === true ? 'Loading...' : ''}</div>
+        <div>{error && 'Error'}</div>
       </main>
-      {renderPagination()}
     </div>
   );
 }
-
-export default App;
