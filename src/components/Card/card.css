@@ -61,7 +61,7 @@
 
 @media (max-width: 768px) {
   .card-info {
-    padding: 0.25em;
+    padding: 0.2em;
   }
 
   .overview {
@@ -80,6 +80,10 @@
     border: none;
     cursor: pointer;
     padding: 0;
+  }
+
+  .card h3 {
+    font-size: 0.75rem;
   }
 
   .overview h3 {

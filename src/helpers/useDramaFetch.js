@@ -4,7 +4,7 @@ import axios from 'axios';
 import { URL_API, KD_API, API_KEY, woGenre, EN_US } from './api';
 import { currDate } from './date';
 
-export default function useDramaFetch(pageNumber, renderSection) {
+function useDramaFetch(pageNumber, renderSection) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [dramas, setDramas] = useState([]);
@@ -31,14 +31,13 @@ export default function useDramaFetch(pageNumber, renderSection) {
     axios({
       method: 'GET',
       url: API_URL[renderSection],
-      // params: { api_key: '299cd45add63bfb2f4b534e2c123c7bb', page: pageNumber },
       cancelToken: new axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
         setDramas((prevDramas) => {
           return [...new Set([...prevDramas, ...res.data.results])];
         });
-        setHasMore(res.data.total_results > 0);
+        setHasMore(res.data.total_pages > res.data.page);
         setLoading(false);
         console.log(res.data);
       })
@@ -50,3 +49,5 @@ export default function useDramaFetch(pageNumber, renderSection) {
   }, [pageNumber, renderSection]);
   return { loading, error, dramas, hasMore };
 }
+
+export default useDramaFetch;

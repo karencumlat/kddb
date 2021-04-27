@@ -25,7 +25,7 @@ export default function App() {
       if (loading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
+        if (entries[0].isIntersecting && hasMore === true) {
           setPageNumber((prevPageNumber) => prevPageNumber + 1);
         }
       });
@@ -152,7 +152,7 @@ export default function App() {
           })}
         </div>
 
-        <div>{loading === true ? 'Loading...' : ''}</div>
+        <div>{loading === true ? 'Loading K-drama...' : ''}</div>
         <div>{error && 'Error'}</div>
       </main>
     </div>
