@@ -7,13 +7,13 @@ import './feature.css';
 function Feature(props) {
   const { name, overview, genre, backdrop_path, first_air_date } = props;
   const imagePath = IMG_PATH;
-
+  const imageSize = 'w1280';
   return (
     <div className="watching-container">
       <div
         className="watching--backdrop"
         style={{
-          backgroundImage: `url(${imagePath + backdrop_path})`,
+          backgroundImage: `url(${imagePath + imageSize + backdrop_path})`,
         }}
       >
         <div className="backdrop--info">

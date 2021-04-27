@@ -9,6 +9,7 @@ import { IMG_PATH } from '../../helpers/api';
 function Card(props) {
   const { name, overview, poster_path, genre } = props;
   const imagePath = IMG_PATH;
+  const imageSize = 'w500';
 
   const [onOverView, setOverview] = React.useState(true);
 
@@ -18,7 +19,7 @@ function Card(props) {
         src={
           JSON.stringify(poster_path).includes('null')
             ? 'https://images.unsplash.com/photo-1540483761890-a1f7be05d99f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=645&q=80'
-            : imagePath + poster_path
+            : imagePath + imageSize + poster_path
         }
         loading="lazy"
         alt={name}

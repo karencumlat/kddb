@@ -1,4 +1,4 @@
-export const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
+export const IMG_PATH = 'https://image.tmdb.org/t/p/';
 
 export const woGenre = 'without_genres=16|99|10762|10763|10764|10767';
 
