@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 
+import logo from './logo.svg';
 import useDramaFetch from './helpers/useDramaFetch';
 import { navItems } from './helpers/navItems';
 import { genres } from './helpers/genres';
@@ -12,11 +13,13 @@ import Menu from './components/Menu';
 
 export default function App() {
   const [pageNumber, setPageNumber] = useState(1);
-  const [renderSection, setRenderSection] = React.useState('DISCOVER'); // Set which section to render, default `discover`
+  const [renderSection, setRenderSection] = useState('DISCOVER'); // Set which section to render, default `discover`
+  const [searchQuery, setSearchQuery] = useState('');
 
   const { dramas, hasMore, loading, error } = useDramaFetch(
     pageNumber,
-    renderSection
+    renderSection,
+    searchQuery
   );
 
   const observer = useRef();
@@ -35,13 +38,22 @@ export default function App() {
     [loading, hasMore]
   );
 
+  function handleSearch(e) {
+    setSearchQuery(e.target.value);
+    setPageNumber(1);
+    setRenderSection('SEARCH');
+  }
+
   return (
     <div className="app">
       {/** Mobile Navigation*/}
       <header className="app-header--mobile">
-        <span className="app-header--mobile-nav">
-          <h1 onClick={() => window.location.reload()}>KDDB</h1>
-        </span>
+        <img
+          src={logo}
+          alt="KDDB logo"
+          onClick={() => window.location.reload()}
+          className="logo"
+        />
         <MobileMenu
           selectedItem={renderSection}
           items={navItems}
@@ -50,20 +62,23 @@ export default function App() {
             setPageNumber(1);
           }}
         />
-        {/* <form id="form">
         <input
           type="text"
           id="search"
           className="search"
           placeholder="Search K-Drama..."
-          onChange={searchDrama}
+          onChange={handleSearch}
+          onBlur={() => searchQuery === '' && setRenderSection('DISCOVER')}
         />
-      </form> */}
       </header>
       {/** Web Navigation*/}
       <header className="app-header">
-        <h1 onClick={() => window.location.reload()}>KDDB</h1>
-
+        <img
+          src={logo}
+          alt="KDDB logo"
+          onClick={() => window.location.reload()}
+          className="logo"
+        />
         <nav className="app-header--nav">
           <Menu
             selectedItem={renderSection}
@@ -74,82 +89,84 @@ export default function App() {
             }}
           />
         </nav>
-        {/* <form id="form">
+
         <input
           type="text"
           id="search"
           className="search"
           placeholder="Search K-Drama..."
-          onChange={searchDrama}
+          onChange={handleSearch}
+          onBlur={() => searchQuery === '' && setRenderSection('DISCOVER')}
         />
-      </form> */}
       </header>
       <main id="main" className="app-main">
         <h2>{renderSection}</h2>
         <div className="card-group">
-          {dramas.map((drama, index) => {
-            const {
-              name,
-              poster_path,
-              vote_average,
-              overview,
-              genre_ids,
-            } = drama;
-            const genre = genres.map((g) =>
-              genre_ids.includes(g.id) === true ? g.name : ''
-            );
-            const filterGenre = genre.filter((g) => g !== '');
-            if (renderSection === 'WATCHING') {
-              return (
-                <Feature
-                  key={name}
-                  name={name}
-                  overview={overview}
-                  genre={filterGenre
-                    .toString()
-                    .replace(/,/g, ' • ')
-                    .replace(/Action & Adventure/g, 'Action')}
-                  backdrop_path={drama.backdrop_path}
-                  first_air_date={drama.first_air_date}
-                />
+          {dramas.length < 1 && renderSection === 'SEARCH' ? (
+            <>
+              TODO: Create Error (No results) Component
+              <p> no result found</p>
+            </>
+          ) : (
+            dramas.map((drama, index) => {
+              const { name, poster_path, vote_average, overview, genre_ids } =
+                drama;
+              const genre = genres.map((g) =>
+                genre_ids.includes(g.id) === true ? g.name : ''
               );
-            }
-            if (dramas.length === index + 1) {
-              return (
-                <div
-                  className="card-group--content"
-                  key={name}
-                  ref={lastDramaRef}
-                >
-                  <Card
+              const filterGenre = genre.filter((g) => g !== '');
+              if (renderSection === 'WATCHING') {
+                return (
+                  <Feature
+                    key={name}
                     name={name}
-                    poster_path={poster_path}
-                    vote_average={vote_average}
                     overview={overview}
                     genre={filterGenre
                       .toString()
                       .replace(/,/g, ' • ')
                       .replace(/Action & Adventure/g, 'Action')}
+                    backdrop_path={drama.backdrop_path}
+                    first_air_date={drama.first_air_date}
                   />
-                </div>
-              );
-            } else {
-              return (
-                <div className="card-group--content" key={name}>
-                  <Card
-                    name={name}
-                    poster_path={poster_path}
-                    vote_average={vote_average}
-                    overview={overview}
-                    genre={filterGenre
-                      .toString()
-                      .replace(/,/g, ' • ')
-                      .replace(/Action & Adventure/g, 'Action')}
-                  />
-                </div>
-              );
-            }
-          })}
+                );
+              }
+              if (dramas.length === index + 1) {
+                return (
+                  <div
+                    className="card-group--content"
+                    key={name}
+                    ref={lastDramaRef}
+                  >
+                    <Card
+                      name={name}
+                      poster_path={poster_path}
+                      vote_average={vote_average}
+                      overview={overview}
+                      genre={filterGenre
+                        .toString()
+                        .replace(/,/g, ' • ')
+                        .replace(/Action & Adventure/g, 'Action')}
+                    />
+                  </div>
+                );
+              } else {
+                return (
+                  <div className="card-group--content" key={name}>
+                    <Card
+                      name={name}
+                      poster_path={poster_path}
+                      vote_average={vote_average}
+                      overview={overview}
+                      genre={filterGenre
+                        .toString()
+                        .replace(/,/g, ' • ')
+                        .replace(/Action & Adventure/g, 'Action')}
+                    />
+                  </div>
+                );
+              }
+            })
+          )}
         </div>
 
         <div>{loading === true ? 'Loading K-drama...' : ''}</div>
