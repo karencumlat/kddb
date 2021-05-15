@@ -1,7 +1,7 @@
 .watching-container {
   width: 100%;
   height: 100%;
-  margin: 3em 0 0;
+  margin: 2rem 0;
 }
 
 .watching--backdrop {
@@ -56,7 +56,7 @@
   }
 
   .watching-container {
-    margin: 1em 0 0;
+    margin: 1rem 0;
   }
 
   .backdrop--info-mobile {

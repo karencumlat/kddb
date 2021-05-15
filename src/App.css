@@ -20,7 +20,7 @@ button > * {
 }
 
 body {
-  background-color: #1d2228;
+  background-color: #020509;
   font-family: 'IBM Plex Sans', sans-serif;
   margin: 0 auto;
   padding: 2em;
@@ -36,23 +36,20 @@ body {
   position: fixed;
   top: 0;
   z-index: 100;
-  background-color: #1d2228;
-  width: 100vw;
+  background-color: #020509;
+  width: 96vw;
   padding: 1em 0;
 }
 
-.app-header h1,
-.app-header--mobile h1 {
-  margin: 0 1em 0 0;
-  color: #fb8122;
-  font-size: 2rem;
-  font-weight: bold;
-  text-transform: uppercase;
+.logo {
+  margin: 0 1rem 0 0;
+  width: 5rem;
+  padding: 0.125rem 0.5rem;
   cursor: pointer;
 }
 
 .app-main {
-  margin-top: 2.5em;
+  margin-top: 4rem;
 }
 
 .search {
@@ -61,21 +58,20 @@ body {
   border-radius: 50px;
   font-family: inherit;
   padding: 0.5rem 1rem;
+  color: #fff;
 }
 
 .search::placeholder {
-  color: #fff;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .search:focus {
   outline: none;
-  background-color: #e1e2e2;
-  color: #1d2228;
 }
 
 .app-header--nav {
   display: flex;
-  flex: 2;
+  flex: 1;
 }
 
 .app-header--mobile {
@@ -107,6 +103,10 @@ body {
 @media (max-width: 1024px) {
   .card-group--content {
     width: 16.5%;
+  }
+
+  .app-header--mobile .search {
+    margin: 1rem;
   }
 }
 

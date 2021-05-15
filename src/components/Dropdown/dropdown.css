@@ -23,7 +23,7 @@ button {
 }
 
 .trigger-button:focus {
-  outline: #fb8122 solid 2px;
+  outline: #ff0038 solid 2px;
 }
 
 .dropdown-menu {
@@ -47,7 +47,7 @@ button {
 
 .dropdown-menu--item:hover {
   text-decoration: line-through;
-  color: #fb8122;
+  color: #ff0038;
 }
 
 .dropdown-menu .active {

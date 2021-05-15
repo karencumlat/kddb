@@ -12,12 +12,12 @@
 }
 
 .card img {
-  background-color: #1d2228;
+  background-color: #020509;
   width: 100%;
 }
 
 .card-info {
-  color: #1d2228;
+  color: #020509;
   display: flex;
   flex-direction: column;
   padding: 0.5rem 1rem 0.75rem 1rem;
@@ -43,7 +43,7 @@
   transform: translateY(101%);
   overflow-y: auto;
   transition: transform 0.3s ease-in;
-  color: #1d2228;
+  color: #020509;
   cursor: default;
 }
 
