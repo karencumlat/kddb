@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 
 import logo from './logo.svg';
 import useDramaFetch from './helpers/useDramaFetch';
@@ -11,9 +11,23 @@ import Card from './components/Card';
 import Feature from './components/Feature';
 import Menu from './components/Menu';
 
-export default function App() {
+import Discover from './pages/Discover';
+import Latest from './pages/Latest';
+import Upcoming from './pages/Upcoming';
+import Watching from './pages/Watching';
+import Watched from './pages/Watched';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom';
+
+function App(props) {
   const [pageNumber, setPageNumber] = useState(1);
-  const [renderSection, setRenderSection] = useState('DISCOVER'); // Set which section to render, default `discover`
+  const [renderSection, setRenderSection] = useState(''); // Set which section to render, default `discover`
   const [searchQuery, setSearchQuery] = useState('');
 
   const { dramas, hasMore, loading, error } = useDramaFetch(
@@ -44,134 +58,106 @@ export default function App() {
     setRenderSection('SEARCH');
   }
 
+  useEffect(() => {
+    setRenderSection(window.localStorage.getItem('section'));
+    console.log(window.localStorage.getItem('section'));
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('section', renderSection);
+  }, [renderSection]);
+
   return (
-    <div className="app">
-      {/** Mobile Navigation*/}
-      <header className="app-header--mobile">
-        <img
-          src={logo}
-          alt="KDDB logo"
-          onClick={() => window.location.reload()}
-          className="logo"
-        />
-        <MobileMenu
-          selectedItem={renderSection}
-          items={navItems}
-          onClick={(e) => {
-            setRenderSection(e.target.value);
-            setPageNumber(1);
-          }}
-        />
-        <input
-          type="text"
-          id="search"
-          className="search"
-          placeholder="Search K-Drama..."
-          onChange={handleSearch}
-          onBlur={() => searchQuery === '' && setRenderSection('DISCOVER')}
-        />
-      </header>
-      {/** Web Navigation*/}
-      <header className="app-header">
-        <img
-          src={logo}
-          alt="KDDB logo"
-          onClick={() => window.location.reload()}
-          className="logo"
-        />
-        <nav className="app-header--nav">
-          <Menu
-            selectedItem={renderSection}
-            items={navItems}
-            onClick={(e) => {
-              setPageNumber(1);
-              setRenderSection(e.target.value);
-            }}
-          />
-        </nav>
+    <Router>
+      <Switch>
+        <Route exact path="/kddb">
+          <Redirect to="/discover" />
+        </Route>
+        <Route exact path="/">
+          <Redirect to="/discover" />
+        </Route>
+        <div className="app">
+          <header className="app-header">
+            <img
+              src={logo}
+              alt="KDDB logo"
+              onClick={() => window.location.reload()}
+              className="logo"
+            />
+            <nav className="app-header--nav">
+              <ul className="menu">
+                {navItems.map((item) => {
+                  return (
+                    <li key={item.name}>
+                      <Link
+                        to={item.path}
+                        onClick={() => {
+                          setPageNumber(1);
+                          setRenderSection(item.name);
+                        }}
+                        className={item.name === renderSection ? 'active' : ''}
+                      >
+                        {item.title}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
 
-        <input
-          type="text"
-          id="search"
-          className="search"
-          placeholder="Search K-Drama..."
-          onChange={handleSearch}
-          onBlur={() => searchQuery === '' && setRenderSection('DISCOVER')}
-        />
-      </header>
-      <main id="main" className="app-main">
-        <h2>{renderSection}</h2>
-        <div className="card-group">
-          {dramas.length < 1 && renderSection === 'SEARCH' ? (
-            <>
-              TODO: Create Error (No results) Component
-              <p> no result found</p>
-            </>
-          ) : (
-            dramas.map((drama, index) => {
-              const { name, poster_path, vote_average, overview, genre_ids } =
-                drama;
-              const genre = genres.map((g) =>
-                genre_ids.includes(g.id) === true ? g.name : ''
-              );
-              const filterGenre = genre.filter((g) => g !== '');
-              if (renderSection === 'WATCHING') {
-                return (
-                  <Feature
-                    key={name}
-                    name={name}
-                    overview={overview}
-                    genre={filterGenre
-                      .toString()
-                      .replace(/,/g, ' • ')
-                      .replace(/Action & Adventure/g, 'Action')}
-                    backdrop_path={drama.backdrop_path}
-                    first_air_date={drama.first_air_date}
-                  />
-                );
-              }
-              if (dramas.length === index + 1) {
-                return (
-                  <div
-                    className="card-group--content"
-                    key={name}
-                    ref={lastDramaRef}
-                  >
-                    <Card
-                      name={name}
-                      poster_path={poster_path}
-                      vote_average={vote_average}
-                      overview={overview}
-                      genre={filterGenre
-                        .toString()
-                        .replace(/,/g, ' • ')
-                        .replace(/Action & Adventure/g, 'Action')}
-                    />
-                  </div>
-                );
-              } else {
-                return (
-                  <div className="card-group--content" key={name}>
-                    <Card
-                      name={name}
-                      poster_path={poster_path}
-                      vote_average={vote_average}
-                      overview={overview}
-                      genre={filterGenre
-                        .toString()
-                        .replace(/,/g, ' • ')
-                        .replace(/Action & Adventure/g, 'Action')}
-                    />
-                  </div>
-                );
-              }
-            })
-          )}
+            <input
+              type="text"
+              id="search"
+              className="search"
+              placeholder="Search K-Drama..."
+              onChange={handleSearch}
+              onBlur={() => searchQuery === '' && setRenderSection('DISCOVER')}
+            />
+          </header>
+
+          <main id="main" className="app-main">
+            <Route path="/discover">
+              <Discover
+                dramas={dramas}
+                renderSection={renderSection}
+                ref={lastDramaRef}
+              />
+            </Route>
+            <Route path="/latest">
+              <Latest
+                dramas={dramas}
+                renderSection={renderSection}
+                ref={lastDramaRef}
+              />
+            </Route>
+            <Route path="/upcoming">
+              <Upcoming
+                dramas={dramas}
+                renderSection={renderSection}
+                ref={lastDramaRef}
+              />
+            </Route>
+            <Route path="/watching">
+              <Watching
+                dramas={dramas}
+                renderSection={renderSection}
+                ref={lastDramaRef}
+              />
+            </Route>
+            <Route path="/watched">
+              <Watched
+                dramas={dramas}
+                renderSection={renderSection}
+                ref={lastDramaRef}
+              />
+            </Route>{' '}
+            <div>{loading === true ? 'Loading K-drama...' : ''}</div>
+            <div>{error && 'Error'}</div>
+          </main>
         </div>
-
-        <div>{loading === true ? 'Loading K-drama...' : ''}</div>
-        <div>{error && 'Error'}</div>
-      </main>
-    </div>
+      </Switch>
+    </Router>
   );
 }
+
+export default App;
