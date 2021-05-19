@@ -1,13 +1,14 @@
-import React from 'react';
-
 import { IMG_PATH } from '../../helpers/api';
+import PlayButton from '../PlayButton';
 
 import './feature.css';
 
 function Feature(props) {
-  const { name, overview, genre, backdrop_path, first_air_date } = props;
+  const { name, overview, genre, backdrop_path, first_air_date, onPlayClick } =
+    props;
   const imagePath = IMG_PATH;
   const imageSize = 'w1280';
+
   return (
     <div className="watching-container">
       <div
@@ -17,6 +18,7 @@ function Feature(props) {
         }}
       >
         <div className="backdrop--info">
+          <PlayButton onClick={onPlayClick} />
           <h3 className="backdrop--info-title">{name}</h3>
           <small className="backdrop--info-subtitle">
             {first_air_date.substring(0, 4)} • {genre}
