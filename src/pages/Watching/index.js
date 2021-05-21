@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player';
 import { genres } from '../../helpers/genres';
 
 import Feature from '../../components/Feature';
+import Blocker from '../../components/Blocker';
 import Modal from '../../components/Modal';
 
 function Watching(props) {
@@ -44,13 +45,16 @@ function Watching(props) {
   return (
     <>
       {openModal === true && (
-        <Modal heading="Play Trailer" onClose={() => setOpenModal(false)}>
-          <ReactPlayer
-            url={`https://www.youtube.com/watch?v=${videoKey}`}
-            width="auto"
-            height="100%"
-          />
-        </Modal>
+        <>
+          <Modal heading="Play Trailer" onClose={() => setOpenModal(false)}>
+            <ReactPlayer
+              url={`https://www.youtube.com/watch?v=${videoKey}`}
+              width="auto"
+              height="100%"
+            />
+          </Modal>
+          <Blocker onClick={() => setOpenModal(false)} />
+        </>
       )}
       <h2>{renderSection}</h2>
       <div className="card-group">
@@ -88,7 +92,7 @@ function Watching(props) {
           })
         )}
       </div>
-      {error && 'Error'}
+      {error !== '' ? 'Error' : ''}
     </>
   );
 }

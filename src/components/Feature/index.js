@@ -18,7 +18,11 @@ function Feature(props) {
         }}
       >
         <div className="backdrop--info">
-          <PlayButton onClick={onPlayClick} />
+          <PlayButton
+            onClick={onPlayClick}
+            title="Trailer"
+            className="play-btn"
+          />
           <h3 className="backdrop--info-title">{name}</h3>
           <small className="backdrop--info-subtitle">
             {first_air_date.substring(0, 4)} • {genre}
@@ -28,11 +32,16 @@ function Feature(props) {
       </div>
       <div className="backdrop--info-mobile">
         <h3 className="backdrop--info-title">{name}</h3>
-        <PlayButton onClick={onPlayClick} />
+
         <small className="backdrop--info-subtitle">
           {first_air_date.substring(0, 4)} • {genre}
         </small>
         <p className="backdrop--info-overview">{overview}</p>
+        <PlayButton
+          onClick={onPlayClick}
+          title="Trailer"
+          className="play-btn"
+        />
       </div>
     </div>
   );

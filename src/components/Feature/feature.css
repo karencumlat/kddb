@@ -50,19 +50,14 @@
   max-width: 35%;
 }
 
-.watching-container .play-btn {
-  background-color: #ff0038;
-  width: 2.5em;
-  height: 2.5em;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.backdrop--info .play-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
 }
 
-.watching-container .play-btn-icon {
-  color: #fff;
+.backdrop--info-mobile span {
+  display: flex;
 }
 
 @media (max-width: 800px) {
