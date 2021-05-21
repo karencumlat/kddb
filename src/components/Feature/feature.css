@@ -14,11 +14,11 @@
   border-radius: 3px;
 }
 
-.backdrop--info-mobile {
+.watching-container .backdrop--info-mobile {
   display: none;
 }
 
-.backdrop--info {
+.watching-container .backdrop--info {
   background: rgb(0, 0, 0);
   /* background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.3)); */
   background: linear-gradient(
@@ -36,21 +36,21 @@
   flex-direction: column;
 }
 
-.backdrop--info-title {
+.watching-container .backdrop--info-title {
   font-size: 3.75em;
 }
 
-.backdrop--info-subtitle {
+.watching-container .backdrop--info-subtitle {
   font-size: 0.75em;
   color: rgba(255, 255, 255, 0.75);
 }
 
-.backdrop--info-overview {
+.watching-container .backdrop--info-overview {
   margin-top: 0.5em;
   max-width: 35%;
 }
 
-.play-btn {
+.watching-container .play-btn {
   background-color: #ff0038;
   width: 2.5em;
   height: 2.5em;
@@ -61,34 +61,34 @@
   align-items: center;
 }
 
-.play-btn-icon {
+.watching-container .play-btn-icon {
   color: #fff;
 }
 
 @media (max-width: 800px) {
-  .backdrop--info {
+  .watching-container .backdrop--info {
     display: none;
   }
 
-  .watching-container {
+  .watching-container .watching-container {
     margin: 1rem 0;
   }
 
-  .backdrop--info-mobile {
+  .watching-container .backdrop--info-mobile {
     display: block;
   }
 
-  .watching--backdrop {
+  .watching-container .watching--backdrop {
     height: 10em;
     background-size: cover;
   }
 
-  .backdrop--info-title {
+  .watching-container .backdrop--info-title {
     font-size: 1.25rem;
     margin: 0.25em 0;
   }
 
-  .backdrop--info-overview {
+  .watching-container .backdrop--info-overview {
     width: 100%;
     max-width: 100%;
   }

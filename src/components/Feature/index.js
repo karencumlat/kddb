@@ -28,6 +28,7 @@ function Feature(props) {
       </div>
       <div className="backdrop--info-mobile">
         <h3 className="backdrop--info-title">{name}</h3>
+        <PlayButton onClick={onPlayClick} />
         <small className="backdrop--info-subtitle">
           {first_air_date.substring(0, 4)} • {genre}
         </small>
