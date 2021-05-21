@@ -88,6 +88,7 @@ function Watching(props) {
           })
         )}
       </div>
+      {error && 'Error'}
     </>
   );
 }
