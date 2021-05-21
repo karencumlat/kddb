@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap');
 
-html {
-  transition: all 0.4s ease-in;
-}
+/* html {
+  transition: all 0.4s 1s ease-in;
+} */
 
 * {
   box-sizing: border-box;
@@ -26,7 +26,7 @@ body {
   padding: 2em;
   color: #fff;
   height: 100vh;
-  transition: 0.4s ease;
+  /* transition: 0.4s ease; */
 }
 
 .app-header {
@@ -106,13 +106,8 @@ body {
   align-items: center;
 }
 
-.menu li {
-  list-style-type: none;
-}
 .menu a {
-  text-decoration: none;
   text-transform: uppercase;
-  cursor: pointer;
   padding: 0.5rem 1rem;
   background-color: transparent;
   border: none;

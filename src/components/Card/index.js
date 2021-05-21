@@ -1,6 +1,7 @@
 import React from 'react';
 import { IoIosCloseCircle } from 'react-icons/io';
 import { IconContext } from 'react-icons';
+import Skeleton from 'react-loading-skeleton';
 
 import './card.css';
 
@@ -15,18 +16,23 @@ function Card(props) {
 
   return (
     <div className="card" key={name}>
-      <img
-        src={
-          JSON.stringify(poster_path).includes('null')
-            ? 'https://images.unsplash.com/photo-1540483761890-a1f7be05d99f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=645&q=80'
-            : imagePath + imageSize + poster_path
-        }
-        loading="lazy"
-        alt={name}
-      />
+      {(
+        <img
+          src={
+            JSON.stringify(poster_path).includes('null')
+              ? 'https://images.unsplash.com/photo-1540483761890-a1f7be05d99f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=645&q=80'
+              : imagePath + imageSize + poster_path
+          }
+          className="fade-in"
+          loading="lazy"
+          alt={name}
+        />
+      ) || <Skeleton height={`15rem`} />}
       <div className="card-info">
-        <h3 title={name}>{name}</h3>
-        <small>{genre ? genre : <span>&nbsp;</span>}</small>
+        <h3 title={name}>
+          {name || <Skeleton height={`1.25rem`} width={`100%`} />}
+        </h3>
+        <small>{genre || <Skeleton height={`.9rem`} width={`80%`} />}</small>
       </div>
       {onOverView === true ? (
         <div className="overview">
