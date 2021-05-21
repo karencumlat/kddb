@@ -1,0 +1,64 @@
+.skeleton-card--group {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.skeleton-card {
+  padding: 1rem 0.5rem;
+  width: 14%;
+}
+.skeleton-card--content {
+  background-color: #fff;
+  border-radius: 3px;
+}
+
+.skeleton-card--info {
+  padding: 0.5rem 1rem 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.md,
+.sm {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .skeleton-card {
+    width: 16.5%;
+  }
+
+  .skeleton-card--info {
+    padding: 0.5rem;
+  }
+
+  .md {
+    display: flex;
+  }
+
+  .lg,
+  .sm {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .sm {
+    display: flex;
+  }
+
+  .md,
+  .lg {
+    display: none;
+  }
+
+  .skeleton-card {
+    width: 25%;
+  }
+
+  .skeleton-card--info {
+    padding: 0.2em;
+  }
+}
