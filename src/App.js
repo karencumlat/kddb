@@ -80,7 +80,7 @@ function App(props) {
               onClick={() => window.location.reload()}
               className="logo"
             />
-            <nav className="app-header--nav">
+            <nav className="app-header--mobile--nav">
               <ul className="mobile-menu">
                 {navItems.map((item) => {
                   return (
