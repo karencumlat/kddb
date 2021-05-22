@@ -52,23 +52,6 @@ body {
   margin-top: 4rem;
 }
 
-.search {
-  background-color: transparent;
-  border: 2px solid #e1e2e2;
-  border-radius: 50px;
-  font-family: inherit;
-  padding: 0.5rem 1rem;
-  color: #fff;
-}
-
-.search::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.search:focus {
-  outline: none;
-}
-
 .app-header--nav {
   display: flex;
   flex: 1;
@@ -136,10 +119,6 @@ body {
   .card-group--content {
     width: 16.5%;
   }
-
-  .app-header--mobile .search {
-    margin: 1rem;
-  }
 }
 
 @media (max-width: 768px) {
@@ -166,8 +145,9 @@ body {
     display: none;
   }
 
-  .search {
+  .mobile-menu--search {
     width: 80vw;
+    margin: 1rem;
   }
 
   .app-main {

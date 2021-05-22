@@ -8,18 +8,16 @@ h2 {
   align-items: center;
   justify-content: center;
   width: 100%;
-}
-
-.fc-film-reel {
-  font-size: 10em;
+  padding: 10rem 0;
 }
 
 .no-results--btn {
   background-color: #ff0038;
   color: #fff;
   font-size: 1.125rem;
-  padding: 1em;
-  margin: 1em 0 0;
+  padding: 1rem;
+  margin: 1rem 0 0;
+  border-radius: 2rem;
 }
 
 .no-results--btn:hover {

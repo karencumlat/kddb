@@ -6,6 +6,7 @@ import { genres } from '../../helpers/genres';
 import Feature from '../../components/Feature';
 import Blocker from '../../components/Blocker';
 import Modal from '../../components/Modal';
+import NoResults from '../../components/NoResults';
 
 function Watching(props) {
   const { renderSection, dramas } = props;
@@ -56,13 +57,10 @@ function Watching(props) {
           <Blocker onClick={() => setOpenModal(false)} />
         </>
       )}
-      <h2>{renderSection}</h2>
+
       <div className="card-group">
         {dramas.length < 1 && renderSection === 'SEARCH' ? (
-          <>
-            TODO: Create Error (No results) Component
-            <p> no result found</p>
-          </>
+          <NoResults />
         ) : (
           dramas.map((drama, index) => {
             const { name, overview, genre_ids, id } = drama;

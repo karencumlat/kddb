@@ -8,6 +8,7 @@ import { navItems } from './helpers/navItems';
 import './App.css';
 
 import SkeletonCard from './components/SkeletonCard';
+import Search from './components/Search';
 
 import CardGroup from './pages/CardGroup';
 import Watching from './pages/Watching';
@@ -40,6 +41,7 @@ function App(props) {
   );
 
   function handleSearch(e) {
+    e.preventDefault();
     setSearchQuery(e.target.value);
     setPageNumber(1);
     setRenderSection('SEARCH');
@@ -62,7 +64,7 @@ function App(props) {
           <img
             src={logo}
             alt="KDDB logo"
-            onClick={() => window.location.reload()}
+            onClick={() => setRenderSection('DISCOVER')}
             className="logo"
           />
           <nav className="app-header--mobile--nav">
@@ -90,13 +92,17 @@ function App(props) {
               })}
             </ul>
           </nav>
-          <input
-            type="text"
-            id="mobile-search"
-            className="search"
+
+          <Search
+            className="mobile-menu--search"
             placeholder="Search K-Drama..."
             onChange={handleSearch}
             onBlur={() => searchQuery === '' && setRenderSection('DISCOVER')}
+            value={searchQuery}
+            onClick={() => {
+              setSearchQuery('');
+              setRenderSection('DISCOVER');
+            }}
           />
         </header>
         {/** Web Navigation*/}
@@ -104,7 +110,7 @@ function App(props) {
           <img
             src={logo}
             alt="KDDB logo"
-            onClick={() => window.location.reload()}
+            onClick={() => setRenderSection('DISCOVER')}
             className="logo"
           />
           <nav className="app-header--nav">
@@ -128,24 +134,23 @@ function App(props) {
             </ul>
           </nav>
 
-          <input
-            type="text"
-            id="search"
+          <Search
             className="search"
             placeholder="Search K-Drama..."
             onChange={handleSearch}
             onBlur={() => searchQuery === '' && setRenderSection('DISCOVER')}
+            value={searchQuery}
+            onClick={() => {
+              setSearchQuery('');
+              setRenderSection('DISCOVER');
+            }}
           />
         </header>
 
         <main id="main" className="app-main">
           <Switch>
             <Route path="/kddb/watching">
-              <Watching
-                dramas={dramas}
-                renderSection={renderSection}
-                ref={lastDramaRef}
-              />
+              <Watching dramas={dramas} renderSection={renderSection} />
             </Route>
             <Route path={`/kddb/${renderSection}`}>
               <CardGroup

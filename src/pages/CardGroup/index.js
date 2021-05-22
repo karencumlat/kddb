@@ -3,18 +3,15 @@ import React from 'react';
 import { genres } from '../../helpers/genres';
 
 import Card from '../../components/Card';
+import NoResults from '../../components/NoResults';
 
 const CardGroup = React.forwardRef((props, ref) => {
   const { renderSection, dramas } = props;
   return (
     <>
-      <h2>{renderSection}</h2>
       <div className="card-group">
         {dramas.length < 1 && renderSection === 'SEARCH' ? (
-          <>
-            TODO: Create Error (No results) Component
-            <p> no result found</p>
-          </>
+          <NoResults />
         ) : (
           dramas.map((drama, index) => {
             const { name, poster_path, vote_average, overview, genre_ids } =
