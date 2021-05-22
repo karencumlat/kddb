@@ -1,6 +1,12 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { IconContext } from 'react-icons';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  HashRouter,
+  Switch,
+  Route,
+  Link,
+} from 'react-router-dom';
 
 import logo from './logo.svg';
 import useDramaFetch from './helpers/useDramaFetch';
@@ -57,7 +63,7 @@ function App(props) {
   }, [renderSection]);
 
   return (
-    <Router>
+    <HashRouter>
       <div className="app">
         {/** Mobile Navigation*/}
         <header className="app-header--mobile">
@@ -159,7 +165,7 @@ function App(props) {
                 ref={lastDramaRef}
               />
             </Route>
-            <Route path="/kddb">
+            <Route path="/">
               <CardGroup
                 dramas={dramas}
                 renderSection={renderSection}
@@ -171,7 +177,7 @@ function App(props) {
           {error && 'Error'}
         </main>
       </div>
-    </Router>
+    </HashRouter>
   );
 }
 
