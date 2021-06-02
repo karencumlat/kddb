@@ -13,7 +13,7 @@ function Watching(props) {
 
   const [id, setId] = useState('');
   const [videoKey, setVideoKey] = useState();
-  const [error, setError] = useState('');
+
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
@@ -29,16 +29,16 @@ function Watching(props) {
       cancelToken: new axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
-        console.table(res.data);
         const key = res.data.results.filter(
           (video) => video.type === 'Trailer'
         );
-        console.log(key[0]);
+
         setVideoKey(key[0].key);
       })
       .catch((e) => {
         if (axios.isCancel(e)) return;
-        setError(true);
+
+        console.log(e);
       });
     return () => cancel();
   }, [id]);
@@ -90,7 +90,6 @@ function Watching(props) {
           })
         )}
       </div>
-      {error !== '' ? 'Error' : ''}
     </>
   );
 }

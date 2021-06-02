@@ -1,12 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { IconContext } from 'react-icons';
-import {
-  BrowserRouter as Router,
-  HashRouter,
-  Switch,
-  Route,
-  Link,
-} from 'react-router-dom';
+import { HashRouter, Switch, Route, Link } from 'react-router-dom';
 
 import logo from './logo.svg';
 import useDramaFetch from './helpers/useDramaFetch';
@@ -55,7 +49,6 @@ function App(props) {
 
   useEffect(() => {
     setRenderSection(window.localStorage.getItem('section'));
-    console.log(window.localStorage.getItem('section'));
   }, []);
 
   useEffect(() => {
@@ -155,10 +148,10 @@ function App(props) {
 
         <main id="main" className="app-main">
           <Switch>
-            <Route path="/kddb/watching">
+            <Route path="/watching">
               <Watching dramas={dramas} renderSection={renderSection} />
             </Route>
-            <Route path={`/kddb/${renderSection}`}>
+            <Route path={`/${renderSection}`}>
               <CardGroup
                 dramas={dramas}
                 renderSection={renderSection}

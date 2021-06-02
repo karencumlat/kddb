@@ -3,7 +3,6 @@ import { IoIosFilm } from 'react-icons/io';
 import './noresults.css';
 
 function NoResults(props) {
-  const { onClick } = props;
   return (
     <div className="container--no-results">
       <i className="fc-film-reel">

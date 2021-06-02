@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { IoMdSearch, IoMdClose } from 'react-icons/io';
 
 import StyledSearch, { SearchInput, Icon } from './styles';
