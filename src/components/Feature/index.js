@@ -25,7 +25,7 @@ function Feature(props) {
           />
           <h3 className="backdrop--info-title">{name}</h3>
           <small className="backdrop--info-subtitle">
-            {first_air_date.substring(0, 4)} • {genre}
+            {first_air_date && first_air_date.substring(0, 4)} • {genre}
           </small>
           <p className="backdrop--info-overview">{overview}</p>
         </div>

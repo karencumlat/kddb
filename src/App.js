@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { IconContext } from 'react-icons';
-import { HashRouter, Switch, Route, Link } from 'react-router-dom';
+import { HashRouter, Switch, Route, Link, Redirect } from 'react-router-dom';
 
 import logo from './logo.svg';
 import useDramaFetch from './helpers/useDramaFetch';
@@ -17,6 +17,15 @@ function App(props) {
   const [pageNumber, setPageNumber] = useState(1);
   const [renderSection, setRenderSection] = useState('DISCOVER'); // Set which section to render, default `discover`
   const [searchQuery, setSearchQuery] = useState('');
+
+  // onLoad
+  useEffect(() => {
+    setRenderSection('DISCOVER');
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('section', renderSection);
+  }, [renderSection]);
 
   const { dramas, hasMore, loading, error } = useDramaFetch(
     pageNumber,
@@ -47,25 +56,21 @@ function App(props) {
     setRenderSection('SEARCH');
   }
 
-  useEffect(() => {
-    setRenderSection(window.localStorage.getItem('section'));
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem('section', renderSection);
-  }, [renderSection]);
-
   return (
     <HashRouter>
       <div className="app">
         {/** Mobile Navigation*/}
         <header className="app-header--mobile">
-          <img
-            src={logo}
-            alt="KDDB logo"
-            onClick={() => setRenderSection('DISCOVER')}
-            className="logo"
-          />
+          <Link to="/">
+            <img
+              src={logo}
+              alt="KDDB logo"
+              className="logo"
+              onClick={() => {
+                setRenderSection('DISCOVER');
+              }}
+            />
+          </Link>
           <nav className="app-header--mobile--nav">
             <ul className="mobile-menu">
               {navItems.map((item) => {
@@ -106,12 +111,16 @@ function App(props) {
         </header>
         {/** Web Navigation*/}
         <header className="app-header">
-          <img
-            src={logo}
-            alt="KDDB logo"
-            onClick={() => setRenderSection('DISCOVER')}
-            className="logo"
-          />
+          <Link to="/">
+            <img
+              src={logo}
+              alt="KDDB logo"
+              onClick={() => {
+                setRenderSection('DISCOVER');
+              }}
+              className="logo"
+            />
+          </Link>
           <nav className="app-header--nav">
             <ul className="menu">
               {navItems.map((item) => {
@@ -148,22 +157,26 @@ function App(props) {
 
         <main id="main" className="app-main">
           <Switch>
-            <Route path="/watching">
-              <Watching dramas={dramas} renderSection={renderSection} />
-            </Route>
-            <Route path={`/${renderSection}`}>
-              <CardGroup
-                dramas={dramas}
-                renderSection={renderSection}
-                ref={lastDramaRef}
-              />
-            </Route>
-            <Route path="/">
-              <CardGroup
-                dramas={dramas}
-                renderSection={renderSection}
-                ref={lastDramaRef}
-              />
+            <Route
+              path="/watching"
+              exact
+              render={() => (
+                <Watching dramas={dramas} renderSection={renderSection} />
+              )}
+            />
+            <Route
+              path={`/${renderSection}`}
+              exact
+              render={() => (
+                <CardGroup
+                  dramas={dramas}
+                  renderSection={renderSection}
+                  ref={lastDramaRef}
+                />
+              )}
+            />
+            <Route exact path="/">
+              <Redirect to="/discover" />
             </Route>
           </Switch>
           {loading ? <SkeletonCard /> : ''}

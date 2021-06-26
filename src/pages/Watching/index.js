@@ -21,12 +21,9 @@ function Watching(props) {
   }, [id]);
 
   useEffect(() => {
-    let cancel;
-
     axios({
       method: 'GET',
       url: `https://api.themoviedb.org/3/tv/${id}/videos?api_key=299cd45add63bfb2f4b534e2c123c7bb&language=ko-KR`,
-      cancelToken: new axios.CancelToken((c) => (cancel = c)),
     })
       .then((res) => {
         const key = res.data.results.filter(
@@ -36,11 +33,8 @@ function Watching(props) {
         setVideoKey(key[0].key);
       })
       .catch((e) => {
-        if (axios.isCancel(e)) return;
-
         console.log(e);
       });
-    return () => cancel();
   }, [id]);
 
   return (

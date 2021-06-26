@@ -10,7 +10,7 @@ import { IMG_PATH } from '../../helpers/api';
 function Card(props) {
   const { name, overview, poster_path, genre } = props;
   const imagePath = IMG_PATH;
-  const imageSize = 'w500';
+  const imageSize = 'w300';
 
   const [onOverView, setOverview] = React.useState(true);
 
